@@ -1,0 +1,26 @@
+{
+  "name": "liri-bot",
+  "version": "1.0.0",
+  "description": "A Node CLI that parses commands and returns data.",
+  "main": "liri.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dvnnorth/LIRI-Bot.git"
+  },
+  "author": "Devin North <dvnnorth@protonmail.com> (https://dvnnorth.github.io)",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dvnnorth/LIRI-Bot/issues"
+  },
+  "homepage": "https://github.com/dvnnorth/LIRI-Bot#readme",
+  "dependencies": {
+    "dotenv": "^6.0.0",
+    "fs": "0.0.1-security",
+    "node-spotify-api": "^1.0.7",
+    "request": "^2.87.0",
+    "twitter": "^1.7.1"
+  }
+}

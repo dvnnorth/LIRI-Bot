@@ -61,4 +61,4 @@ typings/
 .next
 
 # Mac OS .ds_store exclusion
-.DS_STORE
+.DS_Store
