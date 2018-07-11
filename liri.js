@@ -40,6 +40,7 @@ function control(command, title) {
             doWhatItSays(`random.txt`);
             break;
     }
+
 }
 
 // Define case functions
@@ -85,15 +86,20 @@ function spotifyThisSong(songName) {
 }
 
 function spotifyPrint(trackObj, songName) {
-    console.log(`==== Top Result from Spotify for ${songName} ====`)
-    console.log(`Artist: ${trackObj.artists[0].name}`);
-    console.log(`Song Name: ${trackObj.name}`);
-    console.log(`Album: ${trackObj.album.name}`);
-    if (trackObj.preview_url) {
-        console.log(`Preview URL: ${trackObj.preview_url}`);
+    if (trackObj) {
+        console.log(`==== Top Result from Spotify for ${songName} ====`)
+        console.log(`Artist: ${trackObj.artists[0].name}`);
+        console.log(`Song Name: ${trackObj.name}`);
+        console.log(`Album: ${trackObj.album.name}`);
+        if (trackObj.preview_url) {
+            console.log(`Preview URL: ${trackObj.preview_url}`);
+        }
+        else {
+            console.log(`No preview URL available.`);
+        }
     }
     else {
-        console.log(`No preview URL available.`);
+        console.log(`No results for ${songName}...`);
     }
 }
 
@@ -101,30 +107,36 @@ function movieThis(movieTitle) {
     if (movieTitle === "" || !movieTitle) { movieTitle = `Mr. Nobody`; }
     request(`http://www.omdbapi.com/?t=${movieTitle}&y=&plot=short&apikey=trilogy`, function (error, response, body) {
 
-        if (!error && response.statusCode === 200) {
+        if (error) {
+            console.log(`An error occurred... `, error);
+        }
+
+        else if (!error && response.statusCode === 200) {
             let result = JSON.parse(body);
-            // Expected output:
-            /* 
-                Title
-                Year
-                IMDB Rating
-                Rotten Tomatoes Rating
-                Country Where the Movie Was Produced
-                Language of the Movie
-                Plot of the Movie
-                Actors in the Movie
-            */
-            console.log(`==== Result from OMDB for ${movieTitle} ====`);
-            console.log(`Title: ${result.Title}`);
-            console.log(`Year: ${result.Year}`);
-            console.log(`IMDB Rating: ${result.Ratings[0].Value}`);
-            console.log(`Rotten Tomatoes Score: ${result.Ratings[1].Value}`);
-            console.log(`Country of Origin: ${result.Country}`);
-            console.log(`Language: ${result.Language}`);
-            console.log(`Actors: ${result.Actors}`);
-            console.log(`Plot: ${result.Plot}`);
+            if (result.Response === `False`) {
+                console.log(`No results for ${movieTitle}...`);
+            }
+            else {
+                moviePrint(result);
+            }
+        }
+
+        else {
+            console.log(`The request failed...`);
         }
     });
+}
+
+function moviePrint(result, movieTitle) {
+    console.log(`==== Result from OMDB for ${movieTitle} ====`);
+    console.log(`Title: ${result.Title}`);
+    console.log(`Year: ${result.Year}`);
+    console.log(`IMDB Rating: ${result.Ratings[0] ? result.Ratings[0].Value : `No rating available`}`);
+    console.log(`Rotten Tomatoes Score: ${result.Ratings[1] ? result.Ratings[1].Value : `No rating available`}`);
+    console.log(`Country of Origin: ${result.Country}`);
+    console.log(`Language: ${result.Language}`);
+    console.log(`Actors: ${result.Actors}`);
+    console.log(`Plot: ${result.Plot}`);
 }
 
 function doWhatItSays(fileName) {
