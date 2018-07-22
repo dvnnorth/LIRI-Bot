@@ -45,7 +45,8 @@ function control(command, title) {
 
 // Define case functions
 function myTweets() {
-    client.get(`statuses/home_timeline`, function (err, tweets, response) {
+    let endpoint = `statuses/user_timeline`;
+    client.get(endpoint, function (err, tweets, response) {
         if (err) {
             throw err;
         }
@@ -117,7 +118,7 @@ function movieThis(movieTitle) {
                 console.log(`No results for ${movieTitle}...`);
             }
             else {
-                moviePrint(result);
+                moviePrint(result, movieTitle);
             }
         }
 
